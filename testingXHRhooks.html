@@ -1,0 +1,70 @@
+<html>
+
+<head>Testing XHR hooks</head>
+
+<body>
+  <style>
+    .event-log {
+      width: 50rem;
+      height: 14rem;
+      border: 1px solid black;
+      margin: 0.5rem;
+      padding: 0.2rem;
+    }
+    
+    input {
+      width: 11rem;
+      margin: 0.5rem;
+    }
+    
+  </style>
+
+<div class="controls">
+  <input
+    class="xhr"
+    type="button"
+    name="xhr"
+    value="Click to start XHR" />
+</div>
+
+<textarea readonly class="event-log"></textarea>
+
+<script>
+    const xhrButton = document.querySelector(".xhr");
+const log = document.querySelector(".event-log");
+
+function handleEvent(e) {
+  log.textContent = `${log.textContent}${e.type}: ${e.loaded} bytes transferred\n`;
+  if( e.type == 'load' || e.type == 'loadend' ) {
+    log.textContent += `\n\nPayload captured at ${e.type} event = ${e.currentTarget.responseText}\n`;
+  }
+}
+
+function addListeners(xhr) {
+  xhr.addEventListener("loadstart", handleEvent);
+  xhr.addEventListener("load", handleEvent);
+  xhr.addEventListener("loadend", handleEvent);
+  xhr.addEventListener("progress", handleEvent);
+  xhr.addEventListener("error", handleEvent);
+  xhr.addEventListener("abort", handleEvent);
+}
+
+function runXHR(url) {
+  log.textContent = "";
+
+  const xhr = new XMLHttpRequest();
+  addListeners(xhr);
+  xhr.open("GET", url);
+  xhr.send();
+  return xhr;
+}
+
+xhrButton.addEventListener("click", () => {
+  runXHR( "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit" ); //"https://bing.com/th?id=OHR.HangCave_EN-US9374263509_UHD.jpg&w=3840&h=2160&c=8&rs=1&o=3&r=0&quot");
+});
+
+</script>
+
+
+</body>
+</html>
