@@ -1,0 +1,84 @@
+<html>
+<div class="menu-item" style="border: solid 1px red; width:200px; height:200px;">
+Test
+</div>
+<script>
+    const speechSynthesis = window.speechSynthesis;
+
+    const audioElement = new Audio(
+        "phone-call-disconnect-beeps.mp3");
+        //"https://samplelib.com/lib/preview/mp3/sample-3s.mp3");
+
+    audioElement.addEventListener("loadeddata", () => {
+        let duration = audioElement.duration;
+        console.log( 'duration', duration );
+        // The duration variable now holds the duration (in seconds) of the audio clip
+    });
+
+    function playSound() {
+        console.log( 'trying to play sound' );
+        audioElement.play();
+    }
+
+    function playSpeech() {
+        const voiceList = speechSynthesis.getVoices();
+        const theVoice = voiceList.find( function( voice ) { 
+            return voice.name === 'Gordon';
+        });
+        let utterance = new window.SpeechSynthesisUtterance("Call disconnected.");
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.voice = theVoice;
+        //speechSynthesis.cancel();
+        speechSynthesis.speak( utterance );
+    }
+
+    function playSynth() {
+        let AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext;
+        const volumeGain = context.createGain();
+        volumeGain.connect( context.destination );
+        volumeGain.gain.value = 0.3;
+
+        const osc = context.createOscillator();
+        const noteGain = context.createGain();
+        noteGain.gain.value = 0.3;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime( 428, 0 );
+        osc.start( 0 );
+        osc.stop( context.currentTime + 0.75 );
+        osc.connect( noteGain );
+        noteGain.connect( volumeGain );
+
+        /*
+        let i = 0;
+        let intervalId = setInterval( function() {
+            i++;
+            if( i > 200 ) {
+                window.clearInterval( intervalId );
+            }
+            if( i % 5 != 0 ) {
+                return;
+            }
+            osc.connect( noteGain );
+            noteGain.connect( volumeGain );
+            osc.start( 0 );
+            osc.stop( context.currentTime + 0.75 );
+            
+        }, 200 );
+        */
+
+    }
+
+    function clickListener() {
+        const menuItem = document.querySelectorAll('.menu-item');
+        menuItem.forEach(item => {
+            //item.addEventListener( "click", playSound )
+            //item.addEventListener( "click", playSpeech )
+            item.addEventListener( "click", playSynth )
+        });
+    }
+    clickListener();
+</script>
+</html>
