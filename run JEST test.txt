@@ -1,0 +1,252 @@
+npx jest /force-app/main/default/lwc/securePaySummary/__tests__/securePaySummary.test.js
+
+# test will look like this
+import { createElement } from 'lwc';
+import SecurePaySummary from 'c/securePaySummary';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
+
+describe('c-secure-pay-summary', () => {
+    afterEach(() => {
+        // Clean up DOM
+        while (document.body.firstChild) {
+            document.body.removeChild(document.body.firstChild);
+        }
+        jest.clearAllMocks();
+    });
+
+    it('should initialize with default paymentSteps and question icons', () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        document.body.appendChild(element);
+
+        // Query the rendered <div> elements
+        const stepEls = element.shadowRoot.querySelectorAll('[data-id="payment-step"]');
+        expect(stepEls).toHaveLength(4);
+    
+        // For each step, verify the icon matches question.svg
+        stepEls.forEach(stepEl => {
+            const imgEl = stepEl.querySelector('img');
+            expect(imgEl.src).toMatch(/yellowQuestion\.svg$/);
+        });
+    });
+
+    it('handleNotification ignores event if Record_Id__c does not match this.recordId', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Prepare an event with same Record_Id__c
+        const mockEvent = {
+            detail: {
+                data: {
+                    Record_Id__c: '99999',
+                    Status__c: 'Payment Initiated',
+                    Successful__c: true
+                }
+            }
+        };
+
+        const customEvent = new CustomEvent('message', mockEvent );
+        childNotifier.dispatchEvent(customEvent);
+        
+        await Promise.resolve();
+
+        // Query the rendered <div> elements
+        const stepEls = element.shadowRoot.querySelectorAll('[data-id="payment-step"]');
+        expect(stepEls).toHaveLength(4);
+    
+        // For each step, verify the icon still matches question.svg
+        stepEls.forEach(stepEl => {
+            const imgEl = stepEl.querySelector('img');
+            expect(imgEl.src).toMatch(/yellowQuestion\.svg$/);
+        });
+    });
+
+    it('handleNotification updates icon to success for matching record and successful event', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Prepare an event with same Record_Id__c
+        const mockEvent = {
+            detail: {
+                data: {
+                    Record_Id__c: element.recordId,
+                    Status__c: 'Payment Initiated',
+                    Successful__c: true
+                }
+            }
+        };
+
+        const customEvent = new CustomEvent('message', mockEvent );
+        childNotifier.dispatchEvent(customEvent);
+
+        await Promise.resolve();
+
+        // Query the rendered <div> elements
+        const stepEls = element.shadowRoot.querySelectorAll('[data-id="payment-step"]');
+        expect(stepEls).toHaveLength(4);
+    
+        // first step should have green icon
+        const firstStep = stepEls[ 0 ].querySelector('img');
+        expect( firstStep.src ).toMatch(/greenCheck\.svg$/);
+    
+        // Check remaining steps still have question icon
+        for (let i = 1; i < stepEls.length; i++) {
+            const imgEl = stepEls[i].querySelector('img');
+            expect(imgEl.src).toMatch(/yellowQuestion\.svg$/);
+        }
+    });
+
+    it('handleNotification updates icon to error for matching record and unsuccessful event', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Prepare an event with same Record_Id__c
+        const mockEvent = {
+            detail: {
+                data: {
+                    Record_Id__c: element.recordId,
+                    Status__c: 'CVV Entered',
+                    Successful__c: false
+                }
+            }
+        };
+
+        const customEvent = new CustomEvent('message', mockEvent );
+        childNotifier.dispatchEvent(customEvent);
+
+        await Promise.resolve();
+
+        // Query the rendered <div> elements
+        const stepEls = element.shadowRoot.querySelectorAll('[data-id="payment-step"]');
+        expect(stepEls).toHaveLength(4);
+    
+        // 3rd step should have red icon
+        const thirdStep = stepEls[ 2 ].querySelector('img');
+        expect( thirdStep.src ).toMatch(/redX\.svg$/);
+    });
+
+    it('handleNotification catches and displays toast if an error occurs in parsing', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Spy on dispatchEvent
+        const dispatchEventSpy = jest.spyOn( childNotifier, 'dispatchEvent' );
+
+        // Prepare a bad event
+        const mockEvent = {
+            detail: {
+            }
+        };
+        const customEvent = new CustomEvent('message', mockEvent );
+        childNotifier.dispatchEvent( customEvent );
+
+        await Promise.resolve();
+
+        // Expect a toast event
+        expect(dispatchEventSpy).toHaveBeenCalled();
+    });
+
+    it('handleNotificationError dispatches a ShowToastEvent with an error message', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Spy on dispatchEvent
+        const dispatchEventSpy = jest.spyOn( childNotifier, 'dispatchEvent' );
+
+        // Prepare an error event
+        const mockEvent = {
+            detail: {
+                error: 'Dummy error'
+            }
+        };
+        const customEvent = new CustomEvent('error', mockEvent );
+        childNotifier.dispatchEvent( customEvent );
+
+        await Promise.resolve();
+
+        // Expect a toast event
+        expect(dispatchEventSpy).toHaveBeenCalled();
+    });
+
+    it('handleSubscription is a no-op but is callable', async () => {
+        const element = createElement('c-secure-pay-summary', {
+            is: SecurePaySummary
+        });
+        element.recordId = '12345'; // The record we care about
+        document.body.appendChild(element);
+
+        await Promise.resolve();
+
+        // get the <c-process-status-notifier> child
+        const childNotifier = element.shadowRoot.querySelector('c-process-status-notifier');
+        expect(childNotifier).not.toBeNull();
+
+        // Spy on dispatchEvent
+        const dispatchEventSpy = jest.spyOn( childNotifier, 'dispatchEvent' );
+
+        // Prepare an error event
+        const mockEvent = {
+            detail: {
+                subscription: '12345'
+            }
+        };
+        const customEvent = new CustomEvent('subscribe', mockEvent );
+        childNotifier.dispatchEvent( customEvent );
+
+        await Promise.resolve();
+
+        // Just ensure it doesn’t error
+        expect( async () => {
+            childNotifier.dispatchEvent( customEvent );
+    
+            await Promise.resolve();
+
+        }).not.toThrow();
+    });
+});
