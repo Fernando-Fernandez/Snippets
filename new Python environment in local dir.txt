@@ -10,6 +10,7 @@ pip install pandas requests beautifulsoup4 ...
 
 # use UV instead - creates and activates a virtualenv (like `python3 -m venv && source`)
 uv venv
+source .venv/bin/activate
 
 uv pip install pandas requests beautifulsoup4 
 # or uv pip install -r requirements.txt
