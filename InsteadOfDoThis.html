@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Comparison Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      background-color: #f5f5f5;
+    }
+
+    .main-panel {
+      background: white;
+      border: 1px solid lightgray;
+      padding: 30px;
+      width: 1000px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .panel {
+      background: #ccc;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .panel img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin-bottom: 30px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-panel">
+  <input type="text" id="url1" placeholder="Enter first image URL (e.g. https://example.com/image1.jpg)" />
+  <input type="text" id="url2" placeholder="Enter second image URL (e.g. https://example.com/image2.jpg)" />
+  <button onclick="loadImages()">Load Images</button>
+
+  <div class="panel">
+    <h2>INSTEAD OF</h2>
+    <img id="img1" src="" alt="Image 1">
+  </div>
+
+  <div class="panel">
+    <h2>DO THIS</h2>
+    <img id="img2" src="" alt="Image 2">
+  </div>
+</div>
+
+<script>
+function loadImages() {
+  const url1 = document.getElementById('url1').value.trim();
+  const url2 = document.getElementById('url2').value.trim();
+
+  if (url1) {
+    document.getElementById('img1').src = url1;
+  } else {
+    document.getElementById('img1').src = '';
+  }
+
+  if (url2) {
+    document.getElementById('img2').src = url2;
+  } else {
+    document.getElementById('img2').src = '';
+  }
+}
+</script>
+
+</body>
+</html>
