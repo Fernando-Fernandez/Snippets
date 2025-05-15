@@ -1,0 +1,124 @@
+    1  sudo raspi-config
+    2  sudo reboot
+    3  sudo raspi-config
+    4  hostname -I
+    5  sudo apt update
+    6  sudo apt upgrade -y
+    7  wget -O basic-install.sh https://install.pi-hole.net
+    8  sudo bash basic-install.sh
+    9  sudo nano /etc/pihole/pihole-FTL.conf
+      
+   11  sudo systemctl stop apache2
+   12  sudo systemctl stop nginx
+   13  sudo pihole -r
+   14  exit
+   15  sudo systemctl status lighttpd
+   16  sudo systemctl restart lighttpd
+   17  pihole status
+   18  sudo apt update
+   19  sudo apt install lighttpd
+   20  sudo systemctl restart lighttpd
+   21  sudo journalctl -u lighttpd 
+   22  sudo lsof -i :80
+   23  sudo nano /etc/pihole/pihole-FTL.conf
+   24  sudo pihole -a -p
+   25  sudo pihole setpassword
+   26  sudo netstat -tuln | grep lighttpd
+   27  sudo ufw status
+   28  sudo iptables -L
+   29  hostname -I
+   30  sudo apt update
+   31  sudo apt install lighttpd
+   32  sudo systemctl restart lighttpd
+   33  sudo pihole -r
+   34  sudo nano /etc/lighttpd/lighttpd.conf
+   35  sudo systemctl restart lighttpd
+   36  sudo netstat -tuln | grep :8080
+   37  sudo nano /etc/lighttpd/lighttpd.conf
+   38  sudo systemctl restart lighttpd
+   39  sudo chown -R www-data:www-data /var/www/html
+   40  sudo chmod -R 755 /var/www/html
+   41  sudo chown -R www-data:www-data /var/www/html/admin
+   42  sudo tail -f /var/log/lighttpd/error.log
+   43  sudo nano /etc/lighttpd/lighttpd.conf
+   44  sudo systemctl restart lighttpd
+   45  sudo systemctl restart pihole
+   46  sudo netstat -tuln | grep :80
+   47  sudo systemctl restart pihole-FTL
+
+
+
+      
+   52  sudo pihole -r
+   53  ip addr
+   54  sudo chown -R www-data:www-data /var/www/html/admin
+   55  sudo chmod -R 755 /var/www/html/admin
+   56  sudo chown -R www-data:www-data /var/www/html
+   57  sudo systemctl restart lighttpd
+   58  sudo systemctl restart pihole-FTL
+   59  sudo nano /etc/hostname
+   60  sudo nano /etc/hosts
+   61  sudo reboot
+
+   63  sudo nano /etc/lighttpd/lighttpd.conf
+   64  sudo systemctl restart lighttpd
+   65  nslookup example.com
+   66  curl http://localhost/admin
+   67  sudo systemctl status lighttpd
+   68  sudo systemctl restart lighttpd
+   69  sudo tail -f /var/log/lighttpd/error.log
+   70  sudo netstat -tuln | grep :80
+   71  sudo nano /etc/lighttpd/lighttpd.conf
+   72  sudo nano /etc/pihole/setupVars.conf
+   73  sudo ufw allow 80/tcp
+   74  sudo nano /etc/lighttpd/lighttpd.conf
+   75  sudo systemctl restart lighttpd
+   76  sudo nano /etc/lighttpd/lighttpd.conf
+   77  pihole -?
+   78  pihole -up
+   79  sudo pihole -up
+   80  curl -sSL https://install.pi-hole.net | bash
+   81  sudo pihole -r
+   82  sudo mv /var/www/html/admin /var/www/html/admin_backup
+   83  curl -sSL https://install.pi-hole.net | bash
+   84  pihole -?
+   85  pihole -up
+   86  sudo pihole -up
+   87  lighttpd -t -f /etc/lighttpd/lighttpd.conf
+   88  sudo systemd-analyze verify lighttpd.service
+   89  lsblk
+   90  ls /dev/sda2
+   91  cd /dev/sda2
+   92  lsblk -f
+   93  sudo mkfs.ext4 /dev/sda2
+   94  sudo mkdir /mnt/share
+   95  sudo blkid /dev/sda2
+   96  sudo nano /etc/fstab
+   97  sudo mount -a
+   98  systemctl daemon-reload
+   99  df -h
+  100  ls /mnt/share
+  101  sudo apt update
+  102  sudo apt install -y samba samba-common-bin
+  103  sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+  104  sudo nano /etc/samba/smb.conf
+  105  whoami
+  106  sudo nano /etc/samba/smb.conf
+  107  sudo chown -R fmendes:fmendes /mnt/share
+  108  sudo smbpasswd -a pi
+  109  sudo smbpasswd -a fmendes
+  110  sudo systemctl restart smbd
+  111  top
+  112  htop
+  113  smartctl
+  114  apt install smartctl
+  115  sudo smartctl -a /dev/sda2
+  116  sudo apt install smartctl
+  117  sudo apt-get install smartmontools
+  118  sudo smartctl -a /dev/sda2
+  119  ls
+  120  cd Downloads/
+  121  cd ..
+  122  cd /mnt/share
+  123  ls
+  124  history > history_from_pi.txt
