@@ -6,7 +6,7 @@ source env/bin/activate
 pip install pandas requests beautifulsoup4 ...
 
 
-
+# IMPORTANT:  be sure you have only one version of UV by running "which -a uv"
 
 # use UV instead - creates and activates a virtualenv (like `python3 -m venv && source`)
 uv venv
