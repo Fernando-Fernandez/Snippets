@@ -1,0 +1,84 @@
+.*<actionCalls>\n.*<processMetadataValues>\n.*<name>(.*)</name>\n.*<value>\n.*<stringValue>(.*)</stringValue>\n.*</value>\n
+action type:  $1\naction name:  $2
+
+.*<name>(.*)</name>\n.*<label>\n.*(.*)</label>\n
+internal name:  $1\nlabel:  $2
+
+.*<name>(.*)</name>\n.*<label>(.*)</label>
+internal name:  $1\nlabel:  $2
+
+.*<location[XY]>.*</location[XY]>\n
+
+.*<flowTransactionModel>CurrentTransaction</flowTransactionModel>\n
+
+.*<actionName>.*</actionName>\n.*<actionType>emailAlert</actionType>
+
+.*<inputParameters>\n.*<name>(subjectNameOrId|SObjectRowId)</name>\n.*<value>\n.*<elementReference>myVariable_current.Id</elementReference>\n.*</value>\n.*</inputParameters>\n
+
+.*</actionCalls>
+=============================================
+
+.*<connector>\n.*<targetReference>(.*)</targetReference>\n.*</connector>
+target connector reference:  $1
+
+.*<actionName>chatterPost</actionName>\n.*<actionType>chatterPost</actionType>\n
+
+.*<inputParameters>\n.*<name>text</name>\n.*<value>\n.*<stringValue>
+chatter post text:  
+
+</stringValue>\n.*</value>\n.*</inputParameters>\n.*<inputParameters>\n.*<name>type</name>\n.*</inputParameters>
+
+&quot;
+"
+
+&apos;
+'
+
+&amp;
+&
+
+        <defaultConnector>\n.*<targetReference>(.*)</targetReference>\n.*</defaultConnector>
+target default connector reference:  $1
+
+.*<decisions>
+===============================================================
+
+.*<leftValueReference>(.*)</leftValueReference>\n.*<operator>(.*)</operator>\n.*<rightValue>\n.*<stringValue>(.*)</stringValue>\n.*</rightValue>\n
+condition:  $1 $2 $3\n
+
+.*<leftValueReference>(.*)</leftValueReference>\n.*<operator>(.*)</operator>\n.*<rightValue>\n.*<(string|boolean)Value>(.*)</(string|boolean)Value>\n.*</rightValue>\n
+condition:  $1 $2 $3\n
+
+.*<processMetadataValues>\n.*<name>.*</name>\n.*<value>\n.*<stringValue>.*</stringValue>\n.*</value>\n
+
+.*</?conditions>\n
+
+.*<processMetadataValues>\n.*<name>index</name>\n.*<value>\n.*<numberValue>(.*)</numberValue>\n.*</value>\n
+index:  $1
+
+.*<label>(.*)</label>\n.*</rules>\n.*</decisions>
+decision label:  $1
+
+.*target connector reference:
+target connector reference:
+
+.*<defaultConnectorLabel>(.*)</defaultConnectorLabel>\n.*<rules>\n.*<name>(.*)</name>\n.*<conditionLogic>(.*)</conditionLogic>\n
+default connector label:  $1\nrule name:  $2\ncondition logic:  $3\n
+
+ *\n *\n *\n *\n *\n
+\n
+
+\n *\n
+\n
+
+.*<label>(.*)</label>\n.*</rules>\n.*<rules>\n.*<name>(.*)</name>\n.*<conditionLogic>(.*)</conditionLogic>\n
+target connector label:  $1\nsecond condition group (1 OR 2):  $2\nsecond condition group logic:  $3\n
+
+ *</processMetadataValues>\n
+
+ EqualTo 
+ = 
+
+ *<(.*)>.*</.*>\n
+
+ *</?.*>\n
