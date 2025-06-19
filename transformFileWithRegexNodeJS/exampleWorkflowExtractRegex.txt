@@ -1,0 +1,107 @@
+.*<alerts>\n.*<fullName>(.*)</fullName>\n
+action type:  email alert\naction name:  $1\n
+
+.*<fieldUpdates>\n.*<fullName>(.*)</fullName>\n.*<field>(.*)</field>
+action type:  field updates\naction name:  $1\nfield to update:  $2
+
+.*<fieldUpdates>\n.*<fullName>(.*)</fullName>\n.*(?:<description>.*</description>\n.*)<field>(.*)</field>
+action type:  field updates\naction name:  $1\nfield to update:  $2
+
+.*<(name|operation)>.*</(name|operation)>
+
+\n.*<(literal|lookup)Value>(.*)</(literal|lookup)Value>
+ = $2
+
+\n.*<formula>(.*)</formula>
+ = $1
+
+.*<notifyAssignee>(.*)</notifyAssignee>
+notify assignee:  $1\n
+
+.*<reevaluateOnChange>(.*)</reevaluateOnChange>
+reevaluate on change:  $1\n
+
+.*<template>(.*)/(.*)</template>
+template folder:  $1\ntemplate name:  $2\n
+
+.*<ccEmails>(.*)</ccEmails>\n
+ccTo:  $1\n
+
+.*</recipients>\n.*<recipients>\n
+
+.*<type>(.*)</type>\n
+, $1\n
+
+.*<recipient>(.*)</recipient>\n
+, $1\n
+
+.*<field>(.*)</field>\n
+, $1\n
+
+.*<senderAddress>(.*)</senderAddress>\n
+sender:  $1\n
+
+.*</alerts>
+=============================================
+
+.*</fieldUpdates>
+==================================================================
+
+.*<senderType>.*</senderType>\n
+
+.*<description>.*</description>\n
+
+.*<protected>.*</protected>\n
+
+.*<recipients>\n
+recipients:  
+
+recipients: {2}, 
+recipients: 
+
+.*</recipients>\n
+\n
+
+(, )?(user|email|Lookup),?
+
+\n, (.*)\n
+, $1
+
+\n\n
+\n
+
+\n, 
+, 
+
+\n\n
+\n
+
+&quot;
+"
+
+.*<ValueType>.*</ValueType>
+
+\n\n
+\n
+
+</Workflow>
+
+<\?xml version="1.0" encoding="UTF-8"\?>
+
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+action type	action name	ccTo	recipients	sender	template folder	template name
+
+action type:   (.*)\naction name:  (.*)\nrecipients: (.*)\ntemplate folder:  (.*)\ntemplate name:  (.*)\n=============================================\n
+$1	$2		$3		$4	$5\n
+
+action type:   (.*)\naction name:  (.*)\nrecipients: (.*)\nsender:  (.*)\ntemplate folder:  (.*)\ntemplate name:  (.*)\n=============================================\n
+$1	$2		$3	$4	$5	$6\n
+
+action type:   (.*)\naction name:  (.*)\nccTo:  (.*)\nrecipients: (.*)\nsender:  (.*)\ntemplate folder:  (.*)\ntemplate name:  (.*)\n=============================================\n
+$1	$2	$3	$4	$5	$6	$7\n
+
+action type:   (.*)\naction name:  (.*)\nccTo:  (.*)\nrecipients: (.*)\ntemplate folder:  (.*)\ntemplate name:  (.*)\n=============================================\n
+$1	$2	$3	$4		$5	$6\n
+
+action type:  (.*)\naction name:  (.*)\nfield to update:  (.*)\nnotify assignee:  (.*)\nreevaluate on change:  (.*)\n==================================================================\n
+$1	$2	$3	$4	$5\n
