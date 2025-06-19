@@ -4,8 +4,8 @@
 // if the next line is blank, the regex is replaced with the empty string
 // use blank lines to separate each regex pair
 
-// EXAMPLE:  node ./transformFileWithRegex.js PBSourceXML.txt target.txt PBFlowExtractToTextRegex.txt
-// all regex substitutions in PBFlowExtractToTextRegex.txt will be applied to PBSourceXML.txt and 
+// EXAMPLE:  node ./transformFile.js SourceFile.txt target.txt emailTemplateRegex.txt
+// all regex substitutions in emailTemplateRegex.txt will be applied to SourceFile.txt and 
 // the result written to target.txt
 
 // skip first 2 elements:  node and path
