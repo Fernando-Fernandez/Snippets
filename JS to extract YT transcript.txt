@@ -1,0 +1,4 @@
+# Make sure the "Transcript" tab is open on the YT video and then paste this into the developer console of your browser:
+
+
+Array.from(document.querySelectorAll('ytd-transcript-segment-renderer')).map($el => $el.querySelector('yt-formatted-string').textContent).join(" ")
