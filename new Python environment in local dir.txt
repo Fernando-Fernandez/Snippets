@@ -25,3 +25,6 @@ uv venv
 uv pip install -r requirements.txt
 # lock dependencies
 uv pip compile -r requirements.txt -o requirements.lock
+
+# don't forget to activate
+. .venv/bin/activate
