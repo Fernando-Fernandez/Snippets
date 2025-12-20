@@ -28,3 +28,7 @@ uv pip compile -r requirements.txt -o requirements.lock
 
 # don't forget to activate
 . .venv/bin/activate
+
+# to deactivate and clean up UV
+deactivate
+rm -rf .venv
